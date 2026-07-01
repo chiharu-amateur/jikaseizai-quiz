@@ -1,4 +1,3 @@
-const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbxqkXjpicbRdZz6GMF3dN6nhMR9JjcNH4X-vgVV8w7jpeLewTsvhIROTOrtR6Ad_qxQ/exec";
 const questions = [
   {
     category: "割錠",
@@ -64,7 +63,7 @@ const questions = [
 
 // ここにApps Scriptの「ウェブアプリURL」を貼り付けてください。
 // 例: const SUBMIT_URL = "https://script.google.com/macros/s/xxxxx/exec";
-const SUBMIT_URL = "ここにGoogle Apps ScriptのウェブアプリURLを貼る";
+const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbxqkXjpicbRdZz6GMF3dN6nhMR9JjcNH4X-vgVV8w7jpeLewTsvhIROTOrtR6Ad_qxQ/exec";
 const STORAGE_KEY = "jikaseizai_quiz_results_backup";
 
 let current = 0;
