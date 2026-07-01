@@ -1,23 +1,18 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>自家製剤加算 ○×クイズ</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="app">
     <section class="card" id="startScreen">
-      <p class="badge">薬局レセプト練習</p>
-      <h1>自家製剤加算<br>○×クイズ</h1>
-      <p class="lead">算定できる？できない？を1問ずつ確認できます。</p>
-      <div class="infoBox">
-        <p>・一般名中心</p>
-        <p>・答えを選ぶと解説表示</p>
-        <p>・最後に正答率を表示</p>
-      </div>
-      <button class="primary" id="startBtn">スタート</button>
+      <p class="badge">自家製剤加算</p>
+      <h1>○×クイズ</h1>
+      <p class="lead">問題を読んで「算定できる／できない」を選んでください。最後に名前と難易度を入力して、結果をGoogleスプレッドシートへ送信できます。</p>
+      <button class="primary" id="startBtn">開始する</button>
     </section>
 
     <section class="card hidden" id="quizScreen">
@@ -25,15 +20,13 @@
         <span id="progress">1 / 10</span>
         <span id="score">正解 0</span>
       </div>
-      <div class="meter"><div id="meterFill"></div></div>
-      <p class="category" id="category"></p>
-      <h2 id="question"></h2>
-      <div class="choices">
-        <button class="choice yes" data-answer="true">算定できる</button>
-        <button class="choice no" data-answer="false">算定できない</button>
+      <h2 id="questionText"></h2>
+      <div class="actions">
+        <button class="answer yes" data-answer="true">算定できる</button>
+        <button class="answer no" data-answer="false">算定できない</button>
       </div>
       <div class="result hidden" id="resultBox">
-        <h3 id="resultTitle"></h3>
+        <p id="judge"></p>
         <p id="explanation"></p>
         <button class="primary" id="nextBtn">次の問題へ</button>
       </div>
@@ -41,16 +34,34 @@
 
     <section class="card hidden" id="finishScreen">
       <p class="badge">結果</p>
-      <h1 id="finalScore"></h1>
-      <p id="finalMessage" class="lead"></p>
-      <button class="primary" id="retryBtn">もう一度</button>
+      <h2 id="finalScore"></h2>
+      <p id="finalMessage"></p>
+
+      <form id="submitForm" class="submit-form">
+        <label>
+          名前
+          <input id="playerName" name="name" type="text" placeholder="例：山田" required />
+        </label>
+
+        <label>
+          難易度
+          <select id="difficulty" name="difficulty" required>
+            <option value="">選択してください</option>
+            <option value="難しい">難しい</option>
+            <option value="普通">普通</option>
+            <option value="簡単">簡単</option>
+          </select>
+        </label>
+
+        <button class="primary" type="submit">結果を送信する</button>
+      </form>
+
+      <p class="send-status" id="sendStatus"></p>
+      <button class="secondary" id="retryBtn">もう一度する</button>
     </section>
   </main>
 
-  <footer>
-    <p>※実務では最新の薬価基準・添付文書・算定要件を必ず確認してください。</p>
-  </footer>
-
+  <script src="config.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
