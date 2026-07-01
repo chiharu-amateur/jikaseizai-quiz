@@ -1,25 +1,16 @@
-自家製剤加算クイズ Googleスプレッドシート自動回収版
+自家製剤加算クイズ Googleスプレッドシート連携版
 
-【GitHubで編集するところ】
-script.js を開いて、次の行を探してください。
+GitHubにアップロードするファイル:
+- index.html
+- style.css
+- script.js
 
-const SUBMIT_URL = "ここにGoogle Apps ScriptのウェブアプリURLを貼る";
+このZIPは、Apps ScriptのURLをscript.jsへ設定済みです。
+GitHubのリポジトリに3ファイルすべてを上書きアップロードしてください。
 
-この "ここに..." の部分を、Apps Scriptで作ったURLに置き換えます。
-例：
-const SUBMIT_URL = "https://script.google.com/macros/s/xxxxxxxxxxxxxxxx/exec";
+スタートが反応しない場合:
+1. 3ファイルが同じ場所にあるか確認
+2. GitHub Pagesの反映まで1〜5分待つ
+3. スマホのブラウザを更新、またはシークレットモードで開く
 
-【Apps Scriptに貼るコード】
-apps_script_code.js の中身を、Google Apps Script の Code.gs に貼り付けます。
-
-【公開設定】
-デプロイ → 新しいデプロイ → ウェブアプリ
-実行するユーザー：自分
-アクセスできるユーザー：全員
-
-【GitHubにアップロードするファイル】
-index.html
-style.css
-script.js
-
-※問題文は変更していません。
+Apps Script側のコードが必要な場合は apps_script_code.gs を使ってください。

@@ -1,256 +1,170 @@
+const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbxqkXjpicbRdZz6GMF3dN6nhMR9JjcNH4X-vgVV8w7jpeLewTsvhIROTOrtR6Ad_qxQ/exec";
+
 const questions = [
   {
-    category: "割錠",
-    text: "処方医の指示により、規格のない用量にするため錠剤を半錠に分割した。自家製剤加算は算定できる？",
-    answer: true,
-    explanation: "医師の指示に基づき、既製品では対応しにくい用量調整として割錠した場合は、算定対象になり得ます。"
+    "category": "割錠",
+    "text": "処方医の指示により、規格のない用量にするため錠剤を割錠した。自家製剤加算は算定できる。",
+    "answer": true,
+    "explanation": "医師の指示に基づき、既製品で対応できない用量へ調製する場合は算定対象になり得ます。"
   },
   {
-    category: "割錠",
-    text: "患者が飲みやすいように、薬剤師判断のみで錠剤を半錠にした。自家製剤加算は算定できる？",
-    answer: false,
-    explanation: "自家製剤加算は原則として処方医の指示が必要です。薬剤師判断のみの加工では算定できません。"
+    "category": "割錠",
+    "text": "患者が飲みやすいように、薬剤師判断のみで錠剤を半錠にした。自家製剤加算は算定できる。",
+    "answer": false,
+    "explanation": "自家製剤加算は原則として処方医の指示が必要です。薬剤師判断のみでは算定できません。"
   },
   {
-    category: "粉砕",
-    text: "嚥下困難のため、医師の指示で錠剤を粉砕した。ただし同一成分・同一用量で散剤が薬価収載されている。算定できる？",
-    answer: false,
-    explanation: "同一成分・同一規格などで対応可能な剤形が薬価収載されている場合は、自家製剤加算の対象外になりやすい代表例です。"
+    "category": "粉砕",
+    "text": "嚥下困難のため、医師の指示で錠剤を粉砕したが、同一成分・同一規格の散剤が薬価収載されている。自家製剤加算は算定できる。",
+    "answer": false,
+    "explanation": "同一成分・同一規格などで対応できる既製剤がある場合は、原則として自家製剤加算は算定できません。"
   },
   {
-    category: "粉砕",
-    text: "医師の指示でカプセルを脱カプセルし、粉末として分包した。既製の散剤がない。算定できる？",
-    answer: true,
-    explanation: "医師の指示があり、既製剤で対応できない剤形変更として脱カプセル・分包した場合は算定対象になり得ます。"
+    "category": "脱カプセル",
+    "text": "医師の指示でカプセルを脱カプセルし、既製剤で対応できない服用形態にした。自家製剤加算は算定できる場合がある。",
+    "answer": true,
+    "explanation": "医師の指示があり、既製剤で対応できない場合は算定対象になり得ます。"
   },
   {
-    category: "一包化との違い",
-    text: "複数の錠剤を飲み忘れ防止のために一包化しただけ。自家製剤加算は算定できる？",
-    answer: false,
-    explanation: "一包化は自家製剤加算ではありません。要件を満たす場合は一包化加算など別の評価になります。"
+    "category": "一包化との違い",
+    "text": "複数の錠剤を飲み忘れ防止のために一包化しただけである。自家製剤加算は算定できる。",
+    "answer": false,
+    "explanation": "一包化は自家製剤加算ではなく、一包化加算など別の評価です。剤形を変える調製とは区別します。"
   },
   {
-    category: "軟膏混合",
-    text: "2種類の軟膏を混合した。これは自家製剤加算として算定する？",
-    answer: false,
-    explanation: "軟膏などの混合は、内容によっては計量混合調剤加算の検討になります。自家製剤加算とは区別します。"
+    "category": "軟膏混合",
+    "text": "医師の指示で2種類の軟膏を混合した。これは通常、自家製剤加算ではなく計量混合調剤加算の対象を検討する。",
+    "answer": true,
+    "explanation": "軟膏やクリームの混合は、自家製剤加算ではなく計量混合調剤加算との区別が重要です。"
   },
   {
-    category: "液剤",
-    text: "錠剤を粉砕して水に溶かし、服用しやすい液状に調製した。医師の明確な指示がない。算定できる？",
-    answer: false,
-    explanation: "剤形変更であっても、医師の指示が確認できない場合は自家製剤加算の算定は避けるべきです。"
+    "category": "液剤",
+    "text": "既製の液剤を単に計量して交付しただけで、自家製剤加算を算定できる。",
+    "answer": false,
+    "explanation": "単なる計量や分注だけでは自家製剤加算の対象ではありません。"
   },
   {
-    category: "点眼",
-    text: "点眼薬を2本まとめて交付し、患者に使用方法を説明した。自家製剤加算は算定できる？",
-    answer: false,
-    explanation: "単なる交付・説明は製剤加工ではないため、自家製剤加算の対象ではありません。"
+    "category": "点眼",
+    "text": "市販・薬価収載されている点眼液をそのまま交付した。自家製剤加算は算定できる。",
+    "answer": false,
+    "explanation": "既製剤をそのまま交付するだけでは自家製剤加算は算定できません。"
   },
   {
-    category: "規格違い",
-    text: "10mg錠を半錠にして5mgとして調剤したが、同一成分の5mg錠が薬価収載されている。算定できる？",
-    answer: false,
-    explanation: "既製の5mg錠で対応できる場合、あえて割錠しても自家製剤加算は算定できないケースです。"
+    "category": "粉砕",
+    "text": "嚥下困難の患者に対し、医師の指示で錠剤を粉砕し、同一成分で対応できる既製の散剤がない。自家製剤加算は算定できる場合がある。",
+    "answer": true,
+    "explanation": "医師の指示、必要性、既製剤の有無を確認したうえで算定可否を判断します。"
   },
   {
-    category: "返戻注意",
-    text: "処方せんに『粉砕』の指示があり、既製の同一成分散剤がなく、粉砕して分包した。算定できる？",
-    answer: true,
-    explanation: "医師の指示があり、既製剤で対応できない加工であれば算定対象になり得ます。ただし薬価収載状況の確認は必須です。"
+    "category": "返戻注意",
+    "text": "処方せん上に粉砕指示がなく、薬歴にも医師確認の記録がないが、嚥下困難そうなので粉砕した。自家製剤加算は算定できる。",
+    "answer": false,
+    "explanation": "医師の指示または確認記録がない場合、返戻・査定の対象になりやすいです。"
   }
 ];
 
-// ここにApps Scriptの「ウェブアプリURL」を貼り付けてください。
-// 例: const SUBMIT_URL = "https://script.google.com/macros/s/xxxxx/exec";
-const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbxqkXjpicbRdZz6GMF3dN6nhMR9JjcNH4X-vgVV8w7jpeLewTsvhIROTOrtR6Ad_qxQ/exec";
-const STORAGE_KEY = "jikaseizai_quiz_results_backup";
-
 let current = 0;
 let score = 0;
-let answered = false;
 let userName = "";
 let startedAt = "";
-let answersLog = [];
+let answers = [];
+let answered = false;
 
 const $ = (id) => document.getElementById(id);
-const startScreen = $("startScreen");
-const quizScreen = $("quizScreen");
-const finishScreen = $("finishScreen");
-const buttons = document.querySelectorAll(".choice");
 
-$("startBtn").addEventListener("click", startQuiz);
-$("downloadCsvBtn").addEventListener("click", downloadCsv);
-$("clearDataBtn").addEventListener("click", clearSavedData);
-document.querySelectorAll(".difficulty").forEach(btn => btn.addEventListener("click", () => saveSurvey(btn.dataset.difficulty)));
-$("retryBtn").addEventListener("click", startQuiz);
-$("nextBtn").addEventListener("click", nextQuestion);
-buttons.forEach(btn => btn.addEventListener("click", () => checkAnswer(btn)));
-
-function startQuiz() {
-  const inputName = $("userName").value.trim();
-  if (!inputName) {
-    $("nameError").classList.remove("hidden");
-    $("userName").focus();
-    return;
-  }
-  $("nameError").classList.add("hidden");
-  userName = inputName;
-  startedAt = new Date().toISOString();
-  answersLog = [];
-  current = 0;
-  score = 0;
-  startScreen.classList.add("hidden");
-  finishScreen.classList.add("hidden");
-  quizScreen.classList.remove("hidden");
-  showQuestion();
+function show(id) {
+  ["startScreen", "quizScreen", "finishScreen"].forEach(x => $(x).classList.add("hidden"));
+  $(id).classList.remove("hidden");
 }
 
-function showQuestion() {
+function startQuiz() {
+  userName = $("userName").value.trim();
+  if (!userName) { $("nameError").classList.remove("hidden"); return; }
+  $("nameError").classList.add("hidden");
+  current = 0; score = 0; answers = []; answered = false; startedAt = new Date().toISOString();
+  show("quizScreen");
+  renderQuestion();
+}
+
+function renderQuestion() {
   answered = false;
   const q = questions[current];
   $("progress").textContent = `${current + 1} / ${questions.length}`;
-  $("score").textContent = `正解 ${score}`;
-  $("meterFill").style.width = `${(current / questions.length) * 100}%`;
+  $("scoreText").textContent = `正解 ${score}`;
   $("category").textContent = q.category;
-  $("question").textContent = q.text;
+  $("questionText").textContent = q.text;
   $("resultBox").classList.add("hidden");
-  buttons.forEach(btn => {
-    btn.disabled = false;
-    btn.classList.remove("correct", "wrong");
+  ["trueBtn", "falseBtn"].forEach(id => {
+    $(id).disabled = false;
+    $(id).classList.remove("correct", "wrong");
   });
 }
 
-function checkAnswer(btn) {
+function chooseAnswer(choice) {
   if (answered) return;
   answered = true;
   const q = questions[current];
-  const selected = btn.dataset.answer === "true";
-  const isCorrect = selected === q.answer;
-  if (isCorrect) score++;
-  answersLog.push({
-    no: current + 1,
-    category: q.category,
-    question: q.text,
-    selected: selected ? "算定できる" : "算定できない",
-    correctAnswer: q.answer ? "算定できる" : "算定できない",
-    isCorrect: isCorrect ? "正解" : "不正解"
-  });
-
-  buttons.forEach(b => {
-    b.disabled = true;
-    const val = b.dataset.answer === "true";
-    if (val === q.answer) b.classList.add("correct");
-  });
-  if (!isCorrect) btn.classList.add("wrong");
-
-  $("score").textContent = `正解 ${score}`;
-  $("resultTitle").textContent = isCorrect ? "正解！" : "不正解";
+  const ok = choice === q.answer;
+  if (ok) score++;
+  answers.push({ no: current + 1, category: q.category, answer: choice ? "○" : "×", correctAnswer: q.answer ? "○" : "×", result: ok ? "正解" : "不正解" });
+  $("trueBtn").disabled = true;
+  $("falseBtn").disabled = true;
+  const chosenBtn = choice ? $("trueBtn") : $("falseBtn");
+  chosenBtn.classList.add(ok ? "correct" : "wrong");
+  if (!ok) (q.answer ? $("trueBtn") : $("falseBtn")).classList.add("correct");
+  $("judge").textContent = ok ? "正解！" : "不正解";
   $("explanation").textContent = q.explanation;
   $("resultBox").classList.remove("hidden");
-  $("meterFill").style.width = `${((current + 1) / questions.length) * 100}%`;
-  $("nextBtn").textContent = current === questions.length - 1 ? "結果を見る" : "次の問題へ";
+  $("scoreText").textContent = `正解 ${score}`;
 }
 
 function nextQuestion() {
   current++;
-  if (current >= questions.length) finishQuiz();
-  else showQuestion();
+  if (current >= questions.length) return finishQuiz();
+  renderQuestion();
 }
 
 function finishQuiz() {
-  document.querySelectorAll(".difficulty").forEach(btn => btn.classList.remove("selected"));
-  $("savedMessage").classList.add("hidden");
-  $("surveyBox").classList.remove("hidden");
-  quizScreen.classList.add("hidden");
-  finishScreen.classList.remove("hidden");
-  const percent = Math.round((score / questions.length) * 100);
-  $("finalScore").textContent = `${score} / ${questions.length}問 正解`;
-  $("finalMessage").textContent = percent >= 80
-    ? "かなり良い感じです！返戻されやすいポイントも復習しておきましょう。"
-    : percent >= 50
-      ? "あと少し！医師の指示・既製剤の有無・一包化/計量混合との違いを重点的に確認しましょう。"
-      : "基本ルールからもう一度確認すると伸びます。まずは“医師の指示”と“既製剤の有無”を押さえましょう。";
+  const percent = Math.round(score / questions.length * 100);
+  $("finalScore").textContent = `${score} / ${questions.length}問 正解（${percent}%）`;
+  $("finalMessage").textContent = "最後に難易度を選んで、結果を送信してください。";
+  $("sendStatus").textContent = "";
+  show("finishScreen");
 }
 
-async function saveSurvey(difficulty) {
-  document.querySelectorAll(".difficulty").forEach(btn => {
-    btn.classList.toggle("selected", btn.dataset.difficulty === difficulty);
-  });
-
-  const record = {
-    submittedAt: new Date().toISOString(),
-    startedAt,
-    name: userName,
-    score,
-    total: questions.length,
-    percent: Math.round((score / questions.length) * 100),
-    difficulty,
-    answers: answersLog
+async function submitResult() {
+  const difficulty = $("difficulty").value;
+  if (!difficulty) { $("difficultyError").classList.remove("hidden"); return; }
+  $("difficultyError").classList.add("hidden");
+  const btn = $("submitBtn");
+  btn.disabled = true;
+  $("sendStatus").textContent = "送信中です…";
+  const payload = {
+    submittedAt: new Date().toISOString(), startedAt, name: userName,
+    score, total: questions.length, percent: Math.round(score / questions.length * 100),
+    difficulty, answers
   };
-
-  saveLocalBackup(record);
-  $("savedMessage").textContent = "送信中です…";
-  $("savedMessage").classList.remove("hidden");
-
-  if (!SUBMIT_URL || SUBMIT_URL.includes("ここに")) {
-    $("savedMessage").textContent = "ウェブアプリURLが未設定です。端末内バックアップのみ保存しました。";
-    return;
-  }
-
   try {
-    await fetch(SUBMIT_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(record)
-    });
-    $("savedMessage").textContent = "回答をGoogleスプレッドシートへ送信しました。";
-    $("surveyBox").classList.add("hidden");
-  } catch (error) {
-    console.error(error);
-    $("savedMessage").textContent = "送信に失敗しました。端末内バックアップは保存されています。";
+    await fetch(SUBMIT_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
+    $("sendStatus").textContent = "送信しました。スプレッドシートを確認してください。";
+  } catch(e) {
+    $("sendStatus").textContent = "送信できませんでした。Apps ScriptのURLや公開設定を確認してください。";
+    btn.disabled = false;
   }
 }
 
-function saveLocalBackup(record) {
-  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-  saved.push(record);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+function retry() {
+  $("difficulty").value = "";
+  $("userName").value = "";
+  show("startScreen");
 }
 
-function downloadCsv() {
-  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-  if (saved.length === 0) {
-    alert("保存されているバックアップデータがありません。");
-    return;
-  }
-  const rows = [["送信日時", "開始日時", "名前", "正解数", "総問題数", "正答率", "難易度", "回答詳細"]];
-  saved.forEach(r => rows.push([
-    r.submittedAt,
-    r.startedAt,
-    r.name,
-    r.score,
-    r.total,
-    r.percent + "%",
-    r.difficulty,
-    JSON.stringify(r.answers || [])
-  ]));
-  const csv = rows.map(row => row.map(v => `"${String(v ?? "").replaceAll('"', '""')}"`).join(",")).join("\n");
-  const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "自家製剤加算クイズ_端末内バックアップ.csv";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
-}
-
-function clearSavedData() {
-  if (confirm("この端末に保存されたバックアップデータを削除しますか？")) {
-    localStorage.removeItem(STORAGE_KEY);
-    alert("バックアップデータを削除しました。");
-  }
-}
+document.addEventListener("DOMContentLoaded", () => {
+  $("startBtn").addEventListener("click", startQuiz);
+  $("trueBtn").addEventListener("click", () => chooseAnswer(true));
+  $("falseBtn").addEventListener("click", () => chooseAnswer(false));
+  $("nextBtn").addEventListener("click", nextQuestion);
+  $("submitBtn").addEventListener("click", submitResult);
+  $("retryBtn").addEventListener("click", retry);
+  $("userName").addEventListener("keydown", e => { if(e.key === "Enter") startQuiz(); });
+});
