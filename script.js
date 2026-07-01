@@ -1,3 +1,4 @@
+const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbxqkXjpicbRdZz6GMF3dN6nhMR9JjcNH4X-vgVV8w7jpeLewTsvhIROTOrtR6Ad_qxQ/exec";
 const questions = [
   {
     category: "割錠",
