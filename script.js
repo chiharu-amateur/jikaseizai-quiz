@@ -49,6 +49,58 @@ const questions = [
     answer: false,
     explanation: "プレドニンの一般名（プレドニゾロン）を検索すると2.5㎎のものが確認出来るので、自家製剤加算を算定できない。"
   }
+,
+  {
+    text: "【仮】問題11（あとで変更してください）",
+    answer: true,
+    explanation: "あとで編集"
+  },
+  {
+    text: "【仮】問題12（あとで変更してください）",
+    answer: false,
+    explanation: "あとで編集"
+  },
+  {
+    text: "【仮】問題13（あとで変更してください）",
+    answer: true,
+    explanation: "あとで編集"
+  },
+  {
+    text: "【仮】問題14（あとで変更してください）",
+    answer: false,
+    explanation: "あとで編集"
+  },
+  {
+    text: "【仮】問題15（あとで変更してください）",
+    answer: true,
+    explanation: "あとで編集"
+  },
+  {
+    text: "【仮】問題16（あとで変更してください）",
+    answer: false,
+    explanation: "あとで編集"
+  },
+  {
+    text: "【仮】問題17（あとで変更してください）",
+    answer: true,
+    explanation: "あとで編集"
+  },
+  {
+    text: "【仮】問題18（あとで変更してください）",
+    answer: false,
+    explanation: "あとで編集"
+  },
+  {
+    text: "【仮】問題19（あとで変更してください）",
+    answer: true,
+    explanation: "あとで編集"
+  },
+  {
+    text: "【仮】問題20（あとで変更してください）",
+    answer: false,
+    explanation: "あとで編集"
+  }
+
 ];
 
 let current = 0;
